@@ -86,29 +86,65 @@ const steps = [
 
 function CheckoutVisual() {
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm w-full max-w-xs">
-      <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Order Summary</div>
-      {[
-        { label: "Ceramic Planter × 1", val: "$48.00" },
-        { label: "Shipping", val: "$7.99" },
-      ].map((r) => (
-        <div key={r.label} className="flex justify-between text-sm text-gray-700 py-1.5 border-b border-gray-100">
-          <span>{r.label}</span>
-          <span>{r.val}</span>
+    <div className="bg-white rounded-xl border-2 border-indigo-200 shadow-sm w-full max-w-xs overflow-hidden">
+      {/* Shopify-style order summary header */}
+      <div className="px-4 pt-4 pb-2">
+        <div className="text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-3">Order Summary</div>
+
+        {/* ShipInsure line item */}
+        <div className="flex items-center gap-3 mb-2">
+          <div className="w-10 h-10 rounded-md bg-indigo-50 border border-indigo-100 flex items-center justify-center shrink-0">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <rect x="3" y="11" width="18" height="11" rx="2" stroke="#6366f1" strokeWidth="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="#6366f1" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="text-xs font-semibold text-gray-800 leading-tight">ShipInsure Package Protection</div>
+          </div>
+          <div className="text-xs font-semibold text-gray-800 shrink-0">$0.98</div>
         </div>
-      ))}
-      <div className="flex justify-between text-sm py-1.5 border-b border-gray-100">
-        <span className="flex items-center gap-1.5 text-indigo-600 font-medium">
-          <span>🛡️</span> ShipInsure coverage
-        </span>
-        <span className="text-indigo-600 font-semibold">$0.98</span>
+
+        {/* Ceramic Planter line item */}
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-10 h-10 rounded-md bg-green-50 border border-green-100 flex items-center justify-center shrink-0 text-lg">
+            🪴
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="text-xs font-semibold text-gray-800 leading-tight">Ceramic Planter</div>
+          </div>
+          <div className="text-xs font-semibold text-gray-800 shrink-0">$48.00</div>
+        </div>
+
+        {/* Discount code field */}
+        <div className="flex gap-2 mb-3">
+          <input
+            type="text"
+            placeholder="Discount code or gift card"
+            className="flex-1 text-xs border border-gray-300 rounded-md px-3 py-2 text-gray-500 bg-white outline-none"
+            readOnly
+          />
+          <button className="text-xs font-semibold text-gray-500 border border-gray-300 rounded-md px-3 py-2 bg-gray-50">
+            Apply
+          </button>
+        </div>
+
+        {/* Shipping & Total */}
+        <div className="border-t border-gray-100 pt-2 space-y-1.5">
+          <div className="flex justify-between text-xs text-gray-500">
+            <span>Shipping</span>
+            <span>$7.99</span>
+          </div>
+          <div className="flex justify-between text-sm font-bold text-gray-900 pt-1">
+            <span>Total</span>
+            <span>$56.97</span>
+          </div>
+        </div>
       </div>
-      <div className="flex justify-between text-sm font-bold text-gray-900 pt-2 pb-3">
-        <span>Total</span>
-        <span>$56.97</span>
-      </div>
-      <div className="rounded-lg bg-indigo-50 border border-indigo-100 px-3 py-2 text-xs text-indigo-700">
-        <span className="font-semibold">$0.98 premium</span> goes to you, the merchant — not to ShipInsure.
+
+      {/* Blue callout */}
+      <div className="mx-3 mb-3 mt-2 rounded-lg bg-indigo-50 border border-indigo-100 px-3 py-2 text-xs text-indigo-700 leading-snug">
+        <span className="font-semibold">$0.98 premium goes to you, the merchant</span> — not to ShipInsure.
       </div>
     </div>
   );
