@@ -32,11 +32,11 @@ const steps = [
     detail: {
       headline: "Every Monday, ShipInsure invoices you for last week's premiums",
       description:
-        "Every Monday, ShipInsure sends you an invoice for the total premium amount collected during the previous week. This is how ShipInsure keeps track of the premiums you've earned on their behalf — and why billing information is required.",
+        "Every Monday, ShipInsure sends you an invoice for the total premium amount collected during the previous week. Two credits are settled right on that same invoice — your claim reimbursements and your revenue share — so everything nets out to a single number.",
       points: [
         "Invoice covers Mon–Sun of the prior week",
         "Line items show each order and premium collected",
-        "This is also where reimbursements are credited back (see step 4)",
+        "Two credits are applied here — reimbursements and your revenue share (steps 4 & 5)",
       ],
       visual: "invoice",
     },
@@ -71,15 +71,36 @@ const steps = [
     accentColor: "#22c55e",
     lightBg: "#f0fdf4",
     detail: {
-      headline: "Reimbursements are applied to the same weekly invoice",
+      headline: "Reimbursements are credited on the same weekly invoice",
       description:
-        "At the same time ShipInsure invoices you for collected premiums, they also credit you back for any replacement orders or refunds you covered that week. The net amount is what you actually owe — meaning you're never out of pocket for covered claims.",
+        "At the same time ShipInsure invoices you for collected premiums, they credit you back for any replacement orders or refunds you covered that week. It's applied as a line-item credit — so you're never out of pocket for covered claims.",
       points: [
         "Reimbursements appear as a 'Refund/Reship Credit' line on the weekly invoice",
-        "Net due = premiums collected – reimbursements for claims",
-        "If reimbursements exceed premiums in a given week, ShipInsure pays you the difference",
+        "Applied as a credit — no separate payout to chase",
+        "Combined with your revenue share to reach the net you owe (see step 5)",
       ],
       visual: "settlement",
+    },
+  },
+  {
+    id: 5,
+    icon: "🤝",
+    title: "You earn a revenue share — credited on the same invoice",
+    subtitle: "revenue share goes to merchant",
+    color: "from-fuchsia-400 to-pink-500",
+    accentColor: "#d946ef",
+    lightBg: "#fdf4ff",
+    detail: {
+      headline: "Your revenue share settles inside the same invoice",
+      description:
+        "You earn a share of the protection revenue. Instead of paying it out separately, ShipInsure applies it as its own line-item credit on the very invoice it's earned on — reducing what you owe. One number, one transaction, nothing to reconcile.",
+      points: [
+        "Revenue share appears as its own credit line on the weekly invoice",
+        "Settled on the same invoice it's earned on — no separate payout to wait for",
+        "Net due = premiums − reimbursements − revenue share",
+        "Nothing to track, deposit, or reconcile on your end",
+      ],
+      visual: "revshare",
     },
   },
 ];
@@ -175,15 +196,19 @@ function InvoiceVisual() {
           <span className="text-green-600 font-medium">Refund/Reship Credit</span>
           <span className="font-semibold text-green-600">−$69.54</span>
         </div>
+        <div className="flex justify-between text-sm py-1.5 border-b border-gray-100">
+          <span className="text-green-600 font-medium">Revenue share</span>
+          <span className="font-semibold text-green-600">−$84.47</span>
+        </div>
         <div className="mt-3 space-y-1">
           <div className="flex justify-between text-xs text-gray-500">
-            <span>Total Due</span><span className="font-semibold text-gray-800">$493.62</span>
+            <span>Total Due</span><span className="font-semibold text-gray-800">$409.15</span>
           </div>
           <div className="flex justify-between text-xs text-gray-500">
             <span>Amount Paid</span><span>$0.00</span>
           </div>
           <div className="flex justify-between text-sm font-bold text-gray-900 pt-1 border-t border-gray-200 mt-1">
-            <span>Amount Remaining</span><span className="text-violet-600">$493.62</span>
+            <span>Amount Remaining</span><span className="text-violet-600">$409.15</span>
           </div>
         </div>
       </div>
@@ -232,22 +257,62 @@ function SettlementVisual() {
         </div>
         <div className="text-sm font-bold text-gray-800">$563.16</div>
       </div>
-      <div className="flex justify-between items-center py-2 border-b border-gray-100">
+      <div className="flex justify-between items-center py-2 border-b border-gray-100 -mx-1 px-1 rounded bg-green-50/60">
         <div>
           <div className="text-sm text-green-600 font-medium">Refund/Reship Credit</div>
           <div className="text-xs text-gray-400">applied to this invoice</div>
         </div>
         <div className="text-sm font-bold text-green-600">−$69.54</div>
       </div>
+      <div className="flex justify-between items-center py-2 border-b border-gray-100">
+        <div>
+          <div className="text-sm text-fuchsia-600 font-medium">Revenue share</div>
+          <div className="text-xs text-gray-400">also credited here (step 5)</div>
+        </div>
+        <div className="text-sm font-bold text-fuchsia-600">−$84.47</div>
+      </div>
       <div className="flex justify-between items-center pt-2.5 pb-1">
         <div>
           <div className="text-sm font-bold text-gray-900">Net amount due</div>
           <div className="text-xs text-gray-400">you owe this, not the full premiums</div>
         </div>
-        <div className="text-xl font-black text-gray-900">$493.62</div>
+        <div className="text-xl font-black text-gray-900">$409.15</div>
       </div>
       <div className="mt-3 rounded-lg bg-green-50 border border-green-100 px-3 py-2 text-xs text-green-700">
         <span className="font-semibold">You're never out of pocket.</span> Claims are credited before you pay.
+      </div>
+    </div>
+  );
+}
+
+function RevShareVisual() {
+  return (
+    <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm w-full max-w-xs">
+      <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Revenue Share · This Week</div>
+      <div className="flex justify-between items-center py-2 border-b border-gray-100">
+        <div className="text-sm text-gray-800 font-medium">Premiums collected</div>
+        <div className="text-sm font-bold text-gray-800">$563.16</div>
+      </div>
+      <div className="flex justify-between items-center py-2 border-b border-gray-100">
+        <div className="text-sm text-green-600 font-medium">Refund/Reship Credit</div>
+        <div className="text-sm font-bold text-green-600">−$69.54</div>
+      </div>
+      <div className="flex justify-between items-center py-2 border-b border-gray-100 -mx-1 px-1 rounded bg-fuchsia-50 border border-fuchsia-100">
+        <div>
+          <div className="text-sm text-fuchsia-600 font-semibold">Revenue share</div>
+          <div className="text-xs text-fuchsia-400">your share, credited right here</div>
+        </div>
+        <div className="text-sm font-black text-fuchsia-600">−$84.47</div>
+      </div>
+      <div className="flex justify-between items-center pt-2.5 pb-1">
+        <div>
+          <div className="text-sm font-bold text-gray-900">Net amount due</div>
+          <div className="text-xs text-gray-400">one number, already settled</div>
+        </div>
+        <div className="text-xl font-black text-gray-900">$409.15</div>
+      </div>
+      <div className="mt-3 rounded-lg bg-fuchsia-50 border border-fuchsia-100 px-3 py-2 text-xs text-fuchsia-700">
+        <span className="font-semibold">Earned and settled on the same invoice.</span> No separate payout to wait for.
       </div>
     </div>
   );
@@ -258,6 +323,7 @@ function DetailVisual({ visual }: { visual: string }) {
   if (visual === "invoice") return <InvoiceVisual />;
   if (visual === "claims") return <ClaimsVisual />;
   if (visual === "settlement") return <SettlementVisual />;
+  if (visual === "revshare") return <RevShareVisual />;
   return null;
 }
 
@@ -402,7 +468,7 @@ export default function App() {
 
         {/* Footer note */}
         <div className="mt-6 rounded-xl bg-indigo-50 border border-indigo-100 px-5 py-3 text-sm text-indigo-700">
-          <span className="font-bold">Remember:</span> ShipInsure is free for merchants. Billing info is only needed so ShipInsure can invoice you for net premiums and credit back your reimbursements in one weekly settlement.
+          <span className="font-bold">Remember:</span> ShipInsure is free for merchants. Billing info is only needed so ShipInsure can invoice you for premiums and credit back both your reimbursements and your revenue share in one weekly settlement — a single net number.
         </div>
       </div>
     </div>
