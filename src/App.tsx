@@ -3,16 +3,16 @@ import { useState } from "react";
 const steps = [
   {
     id: 1,
-    icon: "🛒",
-    title: "Customer purchases insurance",
-    subtitle: "premium goes to merchant",
+    icon: "protectedbuttonlogo.png",
+    title: "An Order with ShipInsure",
+    subtitle: "you collect premiums",
     color: "from-blue-400 to-indigo-500",
     accentColor: "#6366f1",
     lightBg: "#eef2ff",
     detail: {
       headline: "You collect the premium at checkout",
       description:
-        "When a customer places an order, they're offered the option to insure it through ShipInsure. The insurance premium is paid directly to you — the merchant — as part of the checkout transaction. ShipInsure never touches this money at point of sale.",
+        "When a customer places an order, they're offered the option to protect it through ShipInsure. The premium is paid directly to you — the merchant — as part of the checkout transaction. ShipInsure never touches this money at point of sale.",
       points: [
         "Premium is collected by you alongside the order payment",
         "No extra steps or redirects for the customer",
@@ -24,83 +24,60 @@ const steps = [
   {
     id: 2,
     icon: "📄",
-    title: "Merchant sends the premiums over to Shipinsure weekly",
-    subtitle: "premium goes to Shipinsure",
+    title: "We bill you for the orders we covered",
+    subtitle: "ShipInsure Invoices",
     color: "from-violet-400 to-purple-500",
     accentColor: "#8b5cf6",
     lightBg: "#f5f3ff",
     detail: {
-      headline: "Every Monday, ShipInsure invoices you for last week's premiums",
+      headline: "We bill you for the orders we covered",
       description:
-        "Every Monday, ShipInsure sends you an invoice for the total premium amount collected during the previous week. Two credits are settled right on that same invoice — your claim reimbursements and your revenue share — so everything nets out to a single number.",
-      points: [
-        "Invoice covers Mon–Sun of the prior week",
-        "Line items show each order and premium collected",
-        "Two credits are applied here — reimbursements and your revenue share (steps 4 & 5)",
-      ],
+        "Each billing period, you receive an invoice for every order ShipInsure covered that period.",
+      disclaimer:
+        "Numbers shown are an illustrative example. Your invoice will reflect your store's actual order volume for the period.",
       visual: "invoice",
+      highlight: "coverage",
     },
   },
   {
     id: 3,
-    icon: "📦",
-    title: "Shipinsure approves claims and sends them to the merchant to fulfill",
-    subtitle: "reorder goes to merchant",
+    icon: "approvedlogo.png",
+    title: "Two credits are applied automatically",
+    subtitle: "refund/reship credit & revenue share",
     color: "from-teal-400 to-emerald-500",
     accentColor: "#14b8a6",
     lightBg: "#f0fdfa",
     detail: {
-      headline: "ShipInsure handles the claim — you handle the fulfillment",
+      headline: "Two credits are applied automatically",
       description:
-        "When a customer reports a lost, damaged, or stolen package, ShipInsure reviews and approves the claim. Once approved, a reorder or refund instruction is sent back to you to fulfill — just like a normal order. You're not making any coverage decisions.",
+        "Both credits are already applied. One number, one payment — nothing to reconcile on your end.",
+      subhead: "When a claim is filed…",
       points: [
-        "Customer files claim directly with ShipInsure",
-        "ShipInsure reviews and approves (typically within 24 hrs)",
-        "Approved claims arrive in your dashboard as a reorder or refund action",
-        "You fulfill it — ShipInsure reimburses you for the cost (see step 4)",
+        "ShipInsure reviews and approves the claim",
+        "Once approved, a reorder or refund instruction is sent back to you to fulfill — just like a normal order",
       ],
-      visual: "claims",
+      disclaimer:
+        "Numbers shown are an illustrative example. Your invoice will reflect your store's actual order volume for the period.",
+      visual: "invoice",
+      highlight: "credits",
     },
   },
   {
     id: 4,
     icon: "💰",
-    title: "Shipinsure reimburses merchant for refunds & reorders weekly",
-    subtitle: "reimbursement goes to merchant",
+    title: "You pay the net",
+    subtitle: "one number, one transaction.",
     color: "from-green-400 to-teal-500",
     accentColor: "#22c55e",
     lightBg: "#f0fdf4",
     detail: {
-      headline: "Reimbursements are credited on the same weekly invoice",
+      headline: "You pay the net",
       description:
-        "At the same time ShipInsure invoices you for collected premiums, they credit you back for any replacement orders or refunds you covered that week. It's applied as a line-item credit — so you're never out of pocket for covered claims.",
-      points: [
-        "Reimbursements appear as a 'Refund/Reship Credit' line on the weekly invoice",
-        "Applied as a credit — no separate payout to chase",
-        "Combined with your revenue share to reach the net you owe (see step 5)",
-      ],
-      visual: "settlement",
-    },
-  },
-  {
-    id: 5,
-    icon: "🤝",
-    title: "You earn a revenue share — credited on the same invoice",
-    subtitle: "revenue share goes to merchant",
-    color: "from-fuchsia-400 to-pink-500",
-    accentColor: "#d946ef",
-    lightBg: "#fdf4ff",
-    detail: {
-      headline: "Your revenue share settles inside the same invoice",
-      description:
-        "You earn a share of the protection revenue. Instead of paying it out separately, ShipInsure applies it as its own line-item credit on the very invoice it's earned on — reducing what you owe. One number, one transaction, nothing to reconcile.",
-      points: [
-        "Revenue share appears as its own credit line on the weekly invoice",
-        "Settled on the same invoice it's earned on — no separate payout to wait for",
-        "Net due = premiums − reimbursements − revenue share",
-        "Nothing to track, deposit, or reconcile on your end",
-      ],
-      visual: "revshare",
+        "You're charged only the amount due — the period's coverage, minus both credits. One number, one transaction.",
+      disclaimer:
+        "Numbers shown are an illustrative example. Your invoice will reflect your store's actual order volume for the period.",
+      visual: "invoice",
+      highlight: "subtotal",
     },
   },
 ];
@@ -112,13 +89,10 @@ function CheckoutVisual() {
       <div className="px-4 pt-4 pb-2">
         <div className="text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-3">Order Summary</div>
 
-        {/* ShipInsure line item */}
+        {/* ShipInsure line item — real si_lock.png product image on a white tile */}
         <div className="flex items-center gap-3 mb-2">
-          <div className="w-10 h-10 rounded-md bg-indigo-50 border border-indigo-100 flex items-center justify-center shrink-0">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <rect x="3" y="11" width="18" height="11" rx="2" stroke="#6366f1" strokeWidth="2"/>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="#6366f1" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
+          <div className="w-10 h-10 rounded-md bg-white border border-indigo-100 flex items-center justify-center shrink-0 overflow-hidden">
+            <img src="si_lock.png" alt="ShipInsure" className="w-8 h-8 object-contain" />
           </div>
           <div className="flex-1 min-w-0">
             <div className="text-xs font-semibold text-gray-800 leading-tight">ShipInsure Package Protection</div>
@@ -171,161 +145,84 @@ function CheckoutVisual() {
   );
 }
 
-function InvoiceVisual() {
+// Shared invoice, ported from the RevShare merchant guide. `highlight` magnifies
+// one region: "coverage" | "credits" | "subtotal".
+function InvoiceVisual({ highlight }: { highlight?: string }) {
+  const on = (key: string) => highlight === key;
+  const rowBase = "flex justify-between items-start gap-3 py-2 transition-all duration-300";
+  const hi = (key: string, ring: string, bg: string) =>
+    on(key)
+      ? ` -mx-2 px-2 rounded-lg scale-[1.03] ${bg} ring-1 ${ring} shadow-sm relative z-10`
+      : highlight
+      ? " opacity-40"
+      : "";
+
   return (
-    <div className="bg-white rounded-xl border border-gray-200 shadow-sm w-full max-w-xs overflow-hidden">
-      {/* Invoice header */}
-      <div className="bg-violet-600 text-white px-4 py-3">
-        <div className="text-[10px] font-semibold uppercase tracking-widest opacity-70 mb-0.5">ShipInsure Invoice</div>
-        <div className="text-sm font-bold">#DD30015A-0238</div>
-        <div className="flex items-center gap-2 mt-1.5">
-          <span className="text-[10px] bg-red-400 text-white font-semibold px-2 py-0.5 rounded-full">Unpaid</span>
-          <span className="text-[10px] opacity-70">Due 10/16/2023</span>
+    <div className="bg-white rounded-xl border border-gray-200 shadow-md w-full max-w-sm overflow-hidden p-5 text-left">
+      {/* Header */}
+      <div className="flex justify-between items-start">
+        <div>
+          <div className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-0.5">From</div>
+          <div className="text-sm font-bold text-gray-900">ShipInsure</div>
+          <div className="text-[11px] text-gray-400">merchant@shipinsure.io</div>
+        </div>
+        <div className="text-right space-y-1">
+          <div>
+            <span className="text-[10px] font-semibold uppercase tracking-widest text-gray-400">Invoice</span>{" "}
+            <span className="text-xs font-mono font-semibold text-gray-800">SI-2026-0438</span>
+          </div>
+          <div>
+            <span className="text-[10px] font-semibold uppercase tracking-widest text-gray-400">Issued</span>{" "}
+            <span className="text-xs font-mono font-semibold text-gray-800">Apr 01, 2026</span>
+          </div>
         </div>
       </div>
-      {/* Invoice body */}
-      <div className="p-4">
-        <div className="flex justify-between text-xs text-gray-500 mb-1 font-semibold uppercase tracking-wider">
-          <span>Description</span><span>Amount</span>
+
+      <div className="border-t border-gray-200 my-3" />
+      <div className="text-xl font-black text-gray-900 mb-3">Invoice</div>
+
+      <div className="flex justify-between text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">
+        <span>Description</span>
+        <span>Amount</span>
+      </div>
+
+      {/* Coverage line */}
+      <div className={rowBase + " border-b border-gray-100" + hi("coverage", "ring-indigo-300", "bg-indigo-50")}>
+        <div>
+          <div className="text-sm text-gray-900">1,247 Orders (Mar 1 – Mar 31, 2026)</div>
+          <div className="text-[11px] text-gray-400 font-mono">Protection coverage for the period</div>
         </div>
-        <div className="flex justify-between text-sm py-1.5 border-b border-gray-100">
-          <span className="text-gray-700">48 orders (premiums)</span>
-          <span className="font-semibold text-gray-900">$563.16</span>
+        <div className="text-sm font-mono text-gray-900 whitespace-nowrap">$4,820.00</div>
+      </div>
+
+      {/* Two credits — highlighted together for the "credits" step */}
+      <div className={on("credits") ? "-mx-2 px-2 rounded-lg scale-[1.03] bg-green-50 ring-1 ring-green-300 shadow-sm relative z-10 transition-all duration-300" : highlight ? "opacity-40 transition-all duration-300" : ""}>
+        <div className="flex justify-between items-center py-2 border-b border-gray-100">
+          <span className="text-sm text-green-600 font-medium">Refund/Reship credit</span>
+          <span className="text-sm font-mono font-semibold text-green-600 whitespace-nowrap">-$615.00</span>
         </div>
-        <div className="flex justify-between text-sm py-1.5 border-b border-gray-100">
-          <span className="text-green-600 font-medium">Refund/Reship Credit</span>
-          <span className="font-semibold text-green-600">−$69.54</span>
+        <div className="flex justify-between items-center py-2 border-b border-gray-100">
+          <span className="text-sm text-green-600 font-medium">Revenue share</span>
+          <span className="text-sm font-mono font-semibold text-green-600 whitespace-nowrap">-$841.00</span>
         </div>
-        <div className="flex justify-between text-sm py-1.5 border-b border-gray-100">
-          <span className="text-green-600 font-medium">Revenue share</span>
-          <span className="font-semibold text-green-600">−$84.47</span>
-        </div>
-        <div className="mt-3 space-y-1">
-          <div className="flex justify-between text-xs text-gray-500">
-            <span>Total Due</span><span className="font-semibold text-gray-800">$409.15</span>
-          </div>
-          <div className="flex justify-between text-xs text-gray-500">
-            <span>Amount Paid</span><span>$0.00</span>
-          </div>
-          <div className="flex justify-between text-sm font-bold text-gray-900 pt-1 border-t border-gray-200 mt-1">
-            <span>Amount Remaining</span><span className="text-violet-600">$409.15</span>
-          </div>
-        </div>
+      </div>
+
+      {/* Subtotal */}
+      <div className={"flex justify-between items-center pt-3 transition-all duration-300" + (on("subtotal") ? " -mx-2 px-2 pb-2 rounded-lg scale-[1.03] bg-violet-50 ring-1 ring-violet-300 shadow-sm relative z-10" : highlight ? " opacity-40" : "")}>
+        <span className="text-sm text-gray-500">Subtotal</span>
+        <span className="text-base font-mono font-black text-gray-900 whitespace-nowrap">$3,364.00</span>
       </div>
     </div>
   );
 }
 
-function ClaimsVisual() {
-  return (
-    <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm w-full max-w-xs">
-      <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Claim #48291 · Lost Package</div>
-      <div className="space-y-2 mb-3">
-        {[
-          { step: "Customer files claim", done: true, note: "via ShipInsure portal" },
-          { step: "ShipInsure reviews", done: true, note: "~24hr turnaround" },
-          { step: "Claim approved", done: true, note: "decision made by ShipInsure" },
-          { step: "Reorder sent to merchant", done: false, note: "lands in your dashboard" },
-        ].map((s, i) => (
-          <div key={i} className="flex items-start gap-2.5">
-            <div className={`mt-0.5 w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${s.done ? "bg-teal-500 text-white" : "bg-gray-200 text-gray-400"}`}>
-              {s.done ? "✓" : i + 1}
-            </div>
-            <div>
-              <div className={`text-xs font-semibold ${s.done ? "text-gray-800" : "text-gray-400"}`}>{s.step}</div>
-              <div className="text-[10px] text-gray-400">{s.note}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className="rounded-lg bg-teal-50 border border-teal-200 px-3 py-2 text-xs">
-        <div className="text-teal-700 font-semibold">You never decide on coverage.</div>
-        <div className="text-teal-600 mt-0.5">ShipInsure handles all claim adjudication.</div>
-      </div>
-    </div>
-  );
-}
-
-function SettlementVisual() {
-  return (
-    <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm w-full max-w-xs">
-      <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Weekly Net Settlement</div>
-      <div className="flex justify-between items-center py-2 border-b border-gray-100">
-        <div>
-          <div className="text-sm text-gray-800 font-medium">Premiums collected</div>
-          <div className="text-xs text-gray-400">48 orders this week</div>
-        </div>
-        <div className="text-sm font-bold text-gray-800">$563.16</div>
-      </div>
-      <div className="flex justify-between items-center py-2 border-b border-gray-100 -mx-1 px-1 rounded bg-green-50/60">
-        <div>
-          <div className="text-sm text-green-600 font-medium">Refund/Reship Credit</div>
-          <div className="text-xs text-gray-400">applied to this invoice</div>
-        </div>
-        <div className="text-sm font-bold text-green-600">−$69.54</div>
-      </div>
-      <div className="flex justify-between items-center py-2 border-b border-gray-100">
-        <div>
-          <div className="text-sm text-fuchsia-600 font-medium">Revenue share</div>
-          <div className="text-xs text-gray-400">also credited here (step 5)</div>
-        </div>
-        <div className="text-sm font-bold text-fuchsia-600">−$84.47</div>
-      </div>
-      <div className="flex justify-between items-center pt-2.5 pb-1">
-        <div>
-          <div className="text-sm font-bold text-gray-900">Net amount due</div>
-          <div className="text-xs text-gray-400">you owe this, not the full premiums</div>
-        </div>
-        <div className="text-xl font-black text-gray-900">$409.15</div>
-      </div>
-      <div className="mt-3 rounded-lg bg-green-50 border border-green-100 px-3 py-2 text-xs text-green-700">
-        <span className="font-semibold">You're never out of pocket.</span> Claims are credited before you pay.
-      </div>
-    </div>
-  );
-}
-
-function RevShareVisual() {
-  return (
-    <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm w-full max-w-xs">
-      <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Revenue Share · This Week</div>
-      <div className="flex justify-between items-center py-2 border-b border-gray-100">
-        <div className="text-sm text-gray-800 font-medium">Premiums collected</div>
-        <div className="text-sm font-bold text-gray-800">$563.16</div>
-      </div>
-      <div className="flex justify-between items-center py-2 border-b border-gray-100">
-        <div className="text-sm text-green-600 font-medium">Refund/Reship Credit</div>
-        <div className="text-sm font-bold text-green-600">−$69.54</div>
-      </div>
-      <div className="flex justify-between items-center py-2 border-b border-gray-100 -mx-1 px-1 rounded bg-fuchsia-50 border border-fuchsia-100">
-        <div>
-          <div className="text-sm text-fuchsia-600 font-semibold">Revenue share</div>
-          <div className="text-xs text-fuchsia-400">your share, credited right here</div>
-        </div>
-        <div className="text-sm font-black text-fuchsia-600">−$84.47</div>
-      </div>
-      <div className="flex justify-between items-center pt-2.5 pb-1">
-        <div>
-          <div className="text-sm font-bold text-gray-900">Net amount due</div>
-          <div className="text-xs text-gray-400">one number, already settled</div>
-        </div>
-        <div className="text-xl font-black text-gray-900">$409.15</div>
-      </div>
-      <div className="mt-3 rounded-lg bg-fuchsia-50 border border-fuchsia-100 px-3 py-2 text-xs text-fuchsia-700">
-        <span className="font-semibold">Earned and settled on the same invoice.</span> No separate payout to wait for.
-      </div>
-    </div>
-  );
-}
-
-function DetailVisual({ visual }: { visual: string }) {
+function DetailVisual({ visual, highlight }: { visual: string; highlight?: string }) {
   if (visual === "checkout") return <CheckoutVisual />;
-  if (visual === "invoice") return <InvoiceVisual />;
-  if (visual === "claims") return <ClaimsVisual />;
-  if (visual === "settlement") return <SettlementVisual />;
-  if (visual === "revshare") return <RevShareVisual />;
+  if (visual === "invoice") return <InvoiceVisual highlight={highlight} />;
   return null;
 }
+
+const isImg = (icon: string) => typeof icon === "string" && icon.endsWith(".png");
 
 export default function App() {
   const [active, setActive] = useState<number | null>(null);
@@ -360,7 +257,7 @@ export default function App() {
           Understanding why we need your billing info
         </h1>
         <p className="text-gray-500 text-sm mb-2">
-          ShipInsure is <span className="font-semibold text-gray-700">100% free for merchants.</span> Here's exactly how the money flows — and why billing info is required.
+          ShipInsure is <span className="font-semibold text-gray-700">100% free for merchants.</span> Here's how each billing period settles — your coverage, your credits, and your revenue share — on a single invoice.
         </p>
         <p className="text-gray-400 text-xs mb-8">Click any step to see the details.</p>
 
@@ -387,13 +284,19 @@ export default function App() {
                   >
                     {step.id}
                   </div>
-                  <div className="text-2xl mb-2">{step.icon}</div>
+                  <div className="mb-2 h-8 flex items-center">
+                    {isImg(step.icon) ? (
+                      <img src={step.icon} alt="" className="h-7 w-auto object-contain" />
+                    ) : (
+                      <span className="text-2xl">{step.icon}</span>
+                    )}
+                  </div>
                   <div className="text-sm font-semibold text-gray-900 leading-snug mb-2">{step.title}</div>
                   <div
                     className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-full"
                     style={{ backgroundColor: `${step.accentColor}20`, color: step.accentColor }}
                   >
-                    $ {step.subtitle}
+                    {step.subtitle}
                   </div>
                 </div>
                 {active === step.id && (
@@ -424,12 +327,16 @@ export default function App() {
             <div className="flex flex-col lg:flex-row gap-8">
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-3 mb-4">
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center text-xl"
-                    style={{ backgroundColor: activeStep.lightBg }}
-                  >
-                    {activeStep.icon}
-                  </div>
+                  {isImg(activeStep.icon) ? (
+                    <img src={activeStep.icon} alt="" className="h-8 w-auto object-contain" />
+                  ) : (
+                    <div
+                      className="w-10 h-10 rounded-xl flex items-center justify-center text-xl"
+                      style={{ backgroundColor: activeStep.lightBg }}
+                    >
+                      {activeStep.icon}
+                    </div>
+                  )}
                   <div>
                     <div className="text-xs font-semibold uppercase tracking-widest" style={{ color: activeStep.accentColor }}>
                       Step {activeStep.id}
@@ -440,23 +347,33 @@ export default function App() {
 
                 <p className="text-gray-600 text-sm leading-relaxed mb-5">{activeStep.detail.description}</p>
 
-                <ul className="space-y-2">
-                  {activeStep.detail.points.map((pt, i) => (
-                    <li key={i} className="flex items-start gap-2.5 text-sm text-gray-700">
-                      <span
-                        className="mt-0.5 w-4 h-4 rounded-full flex items-center justify-center text-white text-[10px] font-bold shrink-0"
-                        style={{ backgroundColor: activeStep.accentColor }}
-                      >
-                        ✓
-                      </span>
-                      {pt}
-                    </li>
-                  ))}
-                </ul>
+                {activeStep.detail.subhead && (
+                  <div className="text-sm font-bold text-gray-800 mb-2">{activeStep.detail.subhead}</div>
+                )}
+
+                {activeStep.detail.points && (
+                  <ul className="space-y-2">
+                    {activeStep.detail.points.map((pt, i) => (
+                      <li key={i} className="flex items-start gap-2.5 text-sm text-gray-700">
+                        <span
+                          className="mt-0.5 w-4 h-4 rounded-full flex items-center justify-center text-white text-[10px] font-bold shrink-0"
+                          style={{ backgroundColor: activeStep.accentColor }}
+                        >
+                          ✓
+                        </span>
+                        {pt}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                {activeStep.detail.disclaimer && (
+                  <p className="text-gray-400 text-xs italic leading-relaxed mt-5">{activeStep.detail.disclaimer}</p>
+                )}
               </div>
 
-              <div className="lg:w-72 flex items-start justify-center lg:justify-end">
-                <DetailVisual visual={activeStep.detail.visual} />
+              <div className="lg:w-80 flex items-start justify-center lg:justify-end">
+                <DetailVisual visual={activeStep.detail.visual} highlight={activeStep.detail.highlight} />
               </div>
             </div>
           </div>
@@ -468,7 +385,7 @@ export default function App() {
 
         {/* Footer note */}
         <div className="mt-6 rounded-xl bg-indigo-50 border border-indigo-100 px-5 py-3 text-sm text-indigo-700">
-          <span className="font-bold">Remember:</span> ShipInsure is free for merchants. Billing info is only needed so ShipInsure can invoice you for premiums and credit back both your reimbursements and your revenue share in one weekly settlement — a single net number.
+          <span className="font-bold">Remember:</span> ShipInsure is free for merchants. Billing info is only needed so ShipInsure can invoice you for the coverage and credit back both your reimbursements and your revenue share — settling to a single net amount each period.
         </div>
       </div>
     </div>
