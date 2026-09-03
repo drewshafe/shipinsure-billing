@@ -1,73 +1,61 @@
-# React + TypeScript + Vite
+# ShipInsure — Billing & Revenue Share explainer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interactive click-through that walks a merchant through how ShipInsure billing works —
+premium collection, the weekly invoice, claims/reimbursements, and how the merchant's
+**revenue share** is factored in as a line-item credit on the same invoice.
 
-Currently, two official plugins are available:
+**Live:** https://drewshafe.github.io/shipinsure-billing/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ⚠️ How this deploys (read before editing)
 
-## React Compiler
+GitHub Pages serves this repo from the **`docs/` folder**, so `docs/index.html` is the
+**live page**. There are two implementations of the same content, and they must be kept in sync:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| File | Role |
+| --- | --- |
+| `src/App.tsx` | The React/Vite source of truth for the component. |
+| `docs/index.html` | The page GitHub Pages actually serves. |
 
-## Expanding the ESLint configuration
+`docs/index.html` is currently a **self-contained, hand-authored port** of `App.tsx`
+(vanilla JS + Tailwind via CDN) — **not** a Vite build output. It was authored this way
+because the update was made in an environment without a Node toolchain, so `vite build`
+could not be run. It renders the identical UI and content as the React source.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### If you edit the content
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Update **both** files so they stay consistent:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+1. Edit `src/App.tsx` (the source of truth).
+2. Mirror the change into `docs/index.html`.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### If you have Node and want to go back to a built bundle
+
+You can regenerate `docs/index.html` from `src/App.tsx` instead of hand-mirroring:
+
+```bash
+pnpm install
+pnpm build                       # vite build -> dist/
+npx html-inline dist/index.html -o docs/index.html   # inline JS/CSS into one file
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+> Note: running the build **overwrites** the hand-authored `docs/index.html` with the
+> Vite output. That's fine — `src/App.tsx` already carries the current content, including
+> the revenue-share step — but it does replace the standalone port with a React bundle.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Local development
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+pnpm install
+pnpm dev        # Vite dev server (edits src/App.tsx with HMR)
 ```
+
+Or preview the deployed page directly with any static server:
+
+```bash
+python3 -m http.server 8763 --directory docs
+```
+
+## Tech
+
+React + TypeScript + Vite + Tailwind, shadcn/ui primitives under `src/components/ui/`.
+The deployed `docs/index.html` uses the Tailwind Play CDN so it needs no build step.
