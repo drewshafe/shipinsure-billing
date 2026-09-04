@@ -189,7 +189,7 @@ function InvoiceVisual({ highlight }: { highlight?: string }) {
       {/* Coverage line */}
       <div className={rowBase + " border-b border-gray-100" + hi("coverage", "ring-indigo-300", "bg-indigo-50")}>
         <div>
-          <div className="text-sm text-gray-900">1,247 Orders (Mar 1 – Mar 31, 2026)</div>
+          <div className="text-xs text-gray-900 whitespace-nowrap">1,247 Orders (Mar 1 – Mar 31, 2026)</div>
           <div className="text-[11px] text-gray-400 font-mono">Protection coverage for the period</div>
         </div>
         <div className="text-sm font-mono text-gray-900 whitespace-nowrap">$4,820.00</div>
@@ -284,7 +284,7 @@ export default function App() {
                     >
                       {step.id}
                     </div>
-                    <img src={step.icon} alt="" className="h-14 w-14 object-contain shrink-0" />
+                    <img src={step.icon} alt="" className={`${step.id === 1 ? "h-16 w-16" : "h-14 w-14"} object-contain shrink-0`} />
                   </div>
                   <div className="text-sm font-semibold text-gray-900 leading-snug mb-3">{step.title}</div>
                   <div className="mt-auto">

@@ -136,7 +136,7 @@
 
           <div class="flex justify-between items-start gap-3 py-2 border-b border-gray-100 transition-all duration-300${hi('coverage','ring-indigo-300','bg-indigo-50')}">
             <div>
-              <div class="text-sm text-gray-900">1,247 Orders (Mar 1 – Mar 31, 2026)</div>
+              <div class="text-xs text-gray-900 whitespace-nowrap">1,247 Orders (Mar 1 – Mar 31, 2026)</div>
               <div class="text-[11px] text-gray-400 font-mono">Protection coverage for the period</div>
             </div>
             <div class="text-sm font-mono text-gray-900 whitespace-nowrap">$4,820.00</div>
@@ -179,7 +179,8 @@
 
     // All step logos render in an identical box so they read as one size.
     function stepIcon(step, big) {
-      const sz = big ? "h-12 w-12" : "h-14 w-14";
+      // Step 1's wide checkout button reads a little smaller, so give it a touch more room.
+      const sz = big ? "h-12 w-12" : (step.id === 1 ? "h-16 w-16" : "h-14 w-14");
       return `<img src="${step.icon}" alt="" class="${sz} object-contain shrink-0" />`;
     }
 
