@@ -15,8 +15,8 @@
     // ── Data (kept in sync with src/App.tsx) ────────────────────────────────
     const steps = [
       {
-        id: 1, icon: "protectedbuttonlogo.png",
-        title: "An Order with ShipInsure",
+        id: 1, icon: "Step1.png",
+        title: "Customers checkout with peace of mind",
         subtitle: "you collect premiums",
         color: "from-blue-400 to-indigo-500",
         accentColor: "#6366f1", lightBg: "#eef2ff",
@@ -32,9 +32,9 @@
         },
       },
       {
-        id: 2, icon: "📄",
+        id: 2, icon: "Step2.png",
         title: "We bill you for the orders we covered",
-        subtitle: "ShipInsure Invoices",
+        subtitle: "ShipInsure invoices",
         color: "from-violet-400 to-purple-500",
         accentColor: "#8b5cf6", lightBg: "#f5f3ff",
         detail: {
@@ -45,9 +45,9 @@
         },
       },
       {
-        id: 3, icon: "approvedlogo.png",
+        id: 3, icon: "Step3.png",
         title: "Two credits are applied automatically",
-        subtitle: "refund/reship credit & revenue share",
+        subtitle: "claims credits & revenue share",
         color: "from-teal-400 to-emerald-500",
         accentColor: "#14b8a6", lightBg: "#f0fdfa",
         detail: {
@@ -63,9 +63,9 @@
         },
       },
       {
-        id: 4, icon: "💰",
+        id: 4, icon: "Step4.png",
         title: "You pay the net",
-        subtitle: "one number, one transaction.",
+        subtitle: "one number, one transaction",
         color: "from-green-400 to-teal-500",
         accentColor: "#22c55e", lightBg: "#f0fdf4",
         detail: {
@@ -171,17 +171,16 @@
     let active = null;
 
     function chevron() {
-      return `<div class="shrink-0 text-gray-300">
+      return `<div class="shrink-0 self-center text-gray-300">
         <svg class="w-5 h-5 hidden md:block" fill="none" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <svg class="w-5 h-5 block md:hidden" fill="none" viewBox="0 0 24 24"><path d="M5 9l7 7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>`;
     }
 
+    // All step logos render in an identical box so they read as one size.
     function stepIcon(step, big) {
-      if (isImg(step.icon)) return `<img src="${step.icon}" alt="" class="${big ? 'h-8' : 'h-7'} w-auto object-contain" />`;
-      return big
-        ? `<div class="w-10 h-10 rounded-xl flex items-center justify-center text-xl" style="background-color:${step.lightBg}">${step.icon}</div>`
-        : `<span class="text-2xl">${step.icon}</span>`;
+      const sz = big ? "h-12 w-12" : "h-14 w-14";
+      return `<img src="${step.icon}" alt="" class="${sz} object-contain shrink-0" />`;
     }
 
     function stepButton(step, index) {
@@ -189,15 +188,19 @@
       const activeStyle = isActive ? `style="border-color:${step.accentColor};background-color:${step.lightBg}"` : '';
       const btnCls = isActive ? 'shadow-lg scale-[1.02]' : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-md';
       return `
-        <div class="flex flex-col md:flex-row items-center gap-2 flex-1 min-w-0">
+        <div class="flex flex-col md:flex-row items-stretch gap-2 flex-1 min-w-0">
           <button onclick="toggle(${step.id})" ${activeStyle}
-            class="group relative w-full text-left rounded-2xl border-2 transition-all duration-200 cursor-pointer overflow-hidden ${btnCls}">
+            class="group relative w-full h-full flex flex-col text-left rounded-2xl border-2 transition-all duration-200 cursor-pointer overflow-hidden ${btnCls}">
             <div class="h-1.5 w-full bg-gradient-to-r ${step.color}"></div>
-            <div class="p-4">
-              <div class="w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold mb-3" style="background-color:${step.accentColor}">${step.id}</div>
-              <div class="mb-2 h-8 flex items-center">${stepIcon(step, false)}</div>
-              <div class="text-sm font-semibold text-gray-900 leading-snug mb-2">${step.title}</div>
-              <div class="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-full" style="background-color:${step.accentColor}20;color:${step.accentColor}">${step.subtitle}</div>
+            <div class="p-4 flex flex-col flex-1">
+              <div class="flex items-start justify-between gap-2 mb-3">
+                <div class="w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0" style="background-color:${step.accentColor}">${step.id}</div>
+                ${stepIcon(step, false)}
+              </div>
+              <div class="text-sm font-semibold text-gray-900 leading-snug mb-3">${step.title}</div>
+              <div class="mt-auto">
+                <span class="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-full" style="background-color:${step.accentColor}20;color:${step.accentColor}">${step.subtitle}</span>
+              </div>
             </div>
             ${isActive ? `<div class="absolute bottom-0 left-0 right-0 h-0.5" style="background-color:${step.accentColor}"></div>` : ''}
           </button>

@@ -3,8 +3,8 @@ import { useState } from "react";
 const steps = [
   {
     id: 1,
-    icon: "protectedbuttonlogo.png",
-    title: "An Order with ShipInsure",
+    icon: "Step1.png",
+    title: "Customers checkout with peace of mind",
     subtitle: "you collect premiums",
     color: "from-blue-400 to-indigo-500",
     accentColor: "#6366f1",
@@ -23,9 +23,9 @@ const steps = [
   },
   {
     id: 2,
-    icon: "📄",
+    icon: "Step2.png",
     title: "We bill you for the orders we covered",
-    subtitle: "ShipInsure Invoices",
+    subtitle: "ShipInsure invoices",
     color: "from-violet-400 to-purple-500",
     accentColor: "#8b5cf6",
     lightBg: "#f5f3ff",
@@ -41,9 +41,9 @@ const steps = [
   },
   {
     id: 3,
-    icon: "approvedlogo.png",
+    icon: "Step3.png",
     title: "Two credits are applied automatically",
-    subtitle: "refund/reship credit & revenue share",
+    subtitle: "claims credits & revenue share",
     color: "from-teal-400 to-emerald-500",
     accentColor: "#14b8a6",
     lightBg: "#f0fdfa",
@@ -64,9 +64,9 @@ const steps = [
   },
   {
     id: 4,
-    icon: "💰",
+    icon: "Step4.png",
     title: "You pay the net",
-    subtitle: "one number, one transaction.",
+    subtitle: "one number, one transaction",
     color: "from-green-400 to-teal-500",
     accentColor: "#22c55e",
     lightBg: "#f0fdf4",
@@ -222,8 +222,6 @@ function DetailVisual({ visual, highlight }: { visual: string; highlight?: strin
   return null;
 }
 
-const isImg = (icon: string) => typeof icon === "string" && icon.endsWith(".png");
-
 export default function App() {
   const [active, setActive] = useState<number | null>(null);
   const activeStep = steps.find((s) => s.id === active);
@@ -264,11 +262,11 @@ export default function App() {
         {/* Flow steps */}
         <div className="flex flex-col md:flex-row items-stretch gap-2 mb-6">
           {steps.map((step, index) => (
-            <div key={step.id} className="flex flex-col md:flex-row items-center gap-2 flex-1 min-w-0">
+            <div key={step.id} className="flex flex-col md:flex-row items-stretch gap-2 flex-1 min-w-0">
               <button
                 onClick={() => setActive(active === step.id ? null : step.id)}
                 className={`
-                  group relative w-full text-left rounded-2xl border-2 transition-all duration-200 cursor-pointer overflow-hidden
+                  group relative w-full h-full flex flex-col text-left rounded-2xl border-2 transition-all duration-200 cursor-pointer overflow-hidden
                   ${active === step.id
                     ? "shadow-lg scale-[1.02]"
                     : "border-gray-200 bg-white hover:border-gray-300 hover:shadow-md"
@@ -277,26 +275,25 @@ export default function App() {
                 style={active === step.id ? { borderColor: step.accentColor, backgroundColor: step.lightBg } : {}}
               >
                 <div className={`h-1.5 w-full bg-gradient-to-r ${step.color}`} />
-                <div className="p-4">
-                  <div
-                    className="w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold mb-3"
-                    style={{ backgroundColor: step.accentColor }}
-                  >
-                    {step.id}
+                <div className="p-4 flex flex-col flex-1">
+                  {/* number + logo share the top row; all logos are the same box size */}
+                  <div className="flex items-start justify-between gap-2 mb-3">
+                    <div
+                      className="w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0"
+                      style={{ backgroundColor: step.accentColor }}
+                    >
+                      {step.id}
+                    </div>
+                    <img src={step.icon} alt="" className="h-14 w-14 object-contain shrink-0" />
                   </div>
-                  <div className="mb-2 h-8 flex items-center">
-                    {isImg(step.icon) ? (
-                      <img src={step.icon} alt="" className="h-7 w-auto object-contain" />
-                    ) : (
-                      <span className="text-2xl">{step.icon}</span>
-                    )}
-                  </div>
-                  <div className="text-sm font-semibold text-gray-900 leading-snug mb-2">{step.title}</div>
-                  <div
-                    className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-full"
-                    style={{ backgroundColor: `${step.accentColor}20`, color: step.accentColor }}
-                  >
-                    {step.subtitle}
+                  <div className="text-sm font-semibold text-gray-900 leading-snug mb-3">{step.title}</div>
+                  <div className="mt-auto">
+                    <span
+                      className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-full"
+                      style={{ backgroundColor: `${step.accentColor}20`, color: step.accentColor }}
+                    >
+                      {step.subtitle}
+                    </span>
                   </div>
                 </div>
                 {active === step.id && (
@@ -305,7 +302,7 @@ export default function App() {
               </button>
 
               {index < steps.length - 1 && (
-                <div className="shrink-0 text-gray-300">
+                <div className="shrink-0 self-center text-gray-300">
                   <svg className="w-5 h-5 hidden md:block" fill="none" viewBox="0 0 24 24">
                     <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
@@ -327,16 +324,7 @@ export default function App() {
             <div className="flex flex-col lg:flex-row gap-8">
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-3 mb-4">
-                  {isImg(activeStep.icon) ? (
-                    <img src={activeStep.icon} alt="" className="h-8 w-auto object-contain" />
-                  ) : (
-                    <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center text-xl"
-                      style={{ backgroundColor: activeStep.lightBg }}
-                    >
-                      {activeStep.icon}
-                    </div>
-                  )}
+                  <img src={activeStep.icon} alt="" className="h-12 w-12 object-contain shrink-0" />
                   <div>
                     <div className="text-xs font-semibold uppercase tracking-widest" style={{ color: activeStep.accentColor }}>
                       Step {activeStep.id}
