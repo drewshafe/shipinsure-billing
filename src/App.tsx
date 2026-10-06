@@ -54,7 +54,7 @@ const steps = [
       subhead: "When a claim is filed…",
       points: [
         "ShipInsure reviews and approves the claim",
-        "Once approved, ShipInsure places the reorder or process the refund on our end through the Shopify API.",
+        "Once approved, ShipInsure places the reorder or processes the refund on our end through the Shopify API.",
       ],
       disclaimer:
         "Numbers shown are an illustrative example. Your invoice will reflect your store's actual order volume for the period.",
